@@ -4,15 +4,32 @@ let usd_input = document.querySelector("#usd")
 let brl_input = document.querySelector("#brl")
 
 usd_input.addEventListener("keyup", () => {
-    
+    convert("usd-to-brl")
 })
 
 brl_input.addEventListener("keyup", () => {
-    
+    convert("brl-to-usd")
 })
 
-usd_input.value = "1000,00"
-convert("usd-to-brl")
+usd_input.addEventListener("blur", () => {
+    usd_input.value = format_currency(usd_input.value)
+})
+
+usd_input.addEventListener("keypress", function(event){
+    if (event.key === "Enter") {
+        usd_input.value = format_currency(usd_input.value)
+    }
+})
+
+brl_input.addEventListener("blur", () => {
+    brl_input.value = format_currency(brl_input.value)
+})
+
+brl_input.addEventListener("keypress", function(event){
+    if (event.key === "Enter"){
+        brl_input.value = format_currency(brl_input.value)
+    }
+})
 
 //funcoes
 function format_currency(value){
@@ -36,12 +53,22 @@ function fix_value(value){
     return float_value
 }
 
-function cinvert(type) {
+function convert(type) {
     if(type == "usd-to-brl"){
-        
+        let fixed_value = fix_value(usd_input.value)
+
+        let result = fixed_value * dolar
+        result = result.toFixed(2)
+
+        brl_input.value = format_currency(result) 
     }
 
     if(type == "brl-to-usd"){
+        let fixed_value = fix_value(brl_input.value)
 
+        let result = fixed_value / dolar
+        result = result.toFixed(2)
+
+        usd_input.value = format_currency(result)
     }
 }
