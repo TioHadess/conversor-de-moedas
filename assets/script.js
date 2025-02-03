@@ -3,6 +3,19 @@ let dolar = 5.837
 let usd_input = document.querySelector("#usd")
 let brl_input = document.querySelector("#brl")
 
+async function getExchangeRate() {
+    try {
+        let response = await fetch("https://economia.awesomeapi.com.br/json/last/USD-BRL")
+        let data = await response.json()
+        dolar = parseFloat(data.USDBRL.bid)
+        console.log("Cotação atualizada: ", dolar)
+    } catch (error) {
+        console.error("Erro ao obter a cotação: ", error)
+    }
+}
+
+getExchangeRate()
+
 usd_input.addEventListener("keyup", () => {
     convert("usd-to-brl")
 })
@@ -46,11 +59,7 @@ function format_currency(value){
 function fix_value(value){
     let fixed_value = value.replace(",", ".")
     let float_value = parseFloat(fixed_value)
-    if(float_value == NaN){
-        float_value = 0
-    }
-    
-    return float_value
+    return isNaN(float_value) ? 0 : float_value;
 }
 
 function convert(type) {
