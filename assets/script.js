@@ -44,6 +44,14 @@ brl_input.addEventListener("keypress", function(event){
     }
 })
 
+usd_input.addEventListener("focus", function() {
+    setTimeout(() => { usd_input.selectionStart = usd_input.selectionEnd = usd_input.value.length; }, 0)
+})
+
+brl_input.addEventListener("focus", function() {
+    setTimeout(() => { brl_input.selectionStart = brl_input.selectionEnd = brl_input.value.length; }, 0)
+})
+
 //funcoes
 function format_currency(value){
     let fixed_value = fix_value(value)
